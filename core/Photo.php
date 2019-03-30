@@ -2,10 +2,10 @@
 
 class Photo {
 
-    public $id;
-    public $title;
-    public $url;
-    public $thumbnail;
+    private $id;
+    private $title;
+    private $url;
+    private $thumbnail;
 
     public function __construct($id, $title, $url, $thumbnail) {
         $this->id = $id;
@@ -24,6 +24,26 @@ class Photo {
         if ($this->thumbnail == null) {
             logMessage("WARN", "thumbnail field is null");
         }
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getUrl() {
+        return $this->url;
+    }
+
+    public function getThumbnail() {
+        return $this->thumbnail;
+    }
+
+    public function getTitle() {
+        return $this->title;
+    }
+
+    public function setTitle($title) {
+        return $this->title = $title;
     }
 
 }
