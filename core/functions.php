@@ -7,12 +7,7 @@ function getPhotosPaginated($connection, $size, $offset) {
         $result = mysqli_stmt_get_result($statement);
         $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
         return array_map(function($row) {
-            $photo = new Photo();
-            $photo->id = $row["id"];
-            $photo->url = $row["url"];
-            $photo->title = $row["title"];
-            $photo->thumbnail = $row["thumbnail"];
-            return $photo;
+            return new Photo($row["id"],  $row["title"], $row["url"], $row["thumbnail"]);
         }, $rows);
     } else {
         logMessage('ERROR','Query error: '. mysqli_error($connection));
@@ -95,7 +90,8 @@ function getImageById($connection, $id) {
         mysqli_stmt_bind_param($statement, "i", $id);
         mysqli_stmt_execute($statement);
         $result = mysqli_stmt_get_result($statement);
-        return mysqli_fetch_object($result, 'Photo');
+        $row = mysqli_fetch_assoc($result);
+        return new Photo($row["id"],  $row["title"], $row["url"], $row["thumbnail"]);
     } else {
         logMessage('ERROR','Query error: '. mysqli_error($connection));
         errorPage();
