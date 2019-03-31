@@ -26,6 +26,10 @@ class Photo {
         }
     }
 
+    public function getTitle() {
+        return $this->title;
+    }
+
     public function getId() {
         return $this->id;
     }
@@ -37,13 +41,5 @@ class Photo {
     public function getThumbnail() {
         return $this->thumbnail;
     }
-
-    public function getTitle() {
-        return $this->title;
-    }
-
-    public function setTitle($title) {
-        return $this->title = $title;
-    }
-
+    
 }

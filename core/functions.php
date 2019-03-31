@@ -63,28 +63,6 @@ function paginate($total, $currentPage, $size) {
     return $markup;
 }
 
-$routes = [
-];
-
-function route($action, $callable, $method = "GET") {
-    global $routes;
-    $pattern = "%^$action$%";
-    $routes[strtoupper($method)][$pattern] = $callable;
-}
-
-function dispatch($action, $notFound) {
-    global $routes;
-    $method = $_SERVER["REQUEST_METHOD"]; // POST GET PATCH DELETE
-    if (array_key_exists($method, $routes)) {
-        foreach ($routes[$method] as $pattern => $callable) {
-            if (preg_match($pattern, $action, $matches)) {
-                return $callable($matches);
-            }
-        }
-    }
-    return $notFound();
-}
-
 function getImageById($connection, $id) {
     if ($statement = mysqli_prepare($connection, 'SELECT * FROM photos WHERE id = ?')) {
         mysqli_stmt_bind_param($statement, "i", $id);

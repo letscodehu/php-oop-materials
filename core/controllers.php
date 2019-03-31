@@ -28,7 +28,7 @@ function singleImageController($params) {
     return [
         "single",
         [
-            "title" => $picture->title,
+            "title" => $picture->getTitle(),
             "picture" => $picture
         ]
         ];
