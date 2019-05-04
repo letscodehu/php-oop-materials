@@ -1,5 +1,7 @@
 <?php 
 
+
+
 function getPhotosPaginated($connection, $size, $offset) {
     if ($statement = mysqli_prepare($connection, 'SELECT * FROM photos LIMIT ? OFFSET ?')) {
         mysqli_stmt_bind_param($statement, "ii", $size, $offset);

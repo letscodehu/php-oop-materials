@@ -23,7 +23,7 @@ class Dispatcher {
                 }
             }
         }
-        $fun = $this->notFoundController;
+        $fun = new $this->notFoundController;
         return $fun();
     }
 

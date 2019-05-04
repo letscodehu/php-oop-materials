@@ -7,7 +7,9 @@ class Application {
         ob_start();
         $uri = $_SERVER["REQUEST_URI"];
         $cleaned = explode("?", $uri)[0];
-        $dispatcher = new Dispatcher('notFoundController');
+        $responseFactory = new ResponseFactory(new ViewRenderer());
+        $responseEmitter = new ResponseEmitter();
+        $dispatcher = new Dispatcher('Controllers\\NotFoundController');
         $dispatcher->addRoute('/', 'homeController');
         $dispatcher->addRoute('/about', 'aboutController');
         $dispatcher->addRoute('/image/(?<id>[\d]+)', 'singleImageController');
@@ -18,17 +20,9 @@ class Application {
         $dispatcher->addRoute('/logout', 'logoutSubmitController');
         $dispatcher->addRoute('/login', 'loginSubmitController', "POST");
         
-        list($view, $data) = $dispatcher->dispatch($cleaned);
-        
-        if(preg_match("%^redirect\:%", $view)) {
-            $redirectTarget = substr($view, 9);
-            header("Location:".$redirectTarget);
-            die;
-        }
-        extract($data);
-        $user = createUser();
-        ob_clean();
-        require_once "templates/layout.php";
+        $controllerResult = $dispatcher->dispatch($cleaned);
+        $response = $responseFactory->createResponse($controllerResult);
+        $responseEmitter->emit($response);
         
     }
 
