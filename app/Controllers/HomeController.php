@@ -1,5 +1,7 @@
 <?php
 
+namespace Controllers;
+
 class HomeController {
 
     function handle() {

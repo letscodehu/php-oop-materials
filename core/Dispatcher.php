@@ -2,10 +2,12 @@
 
 class Dispatcher {
 
+    private $container;
     private $notFoundController;
     private $routes = [];
 
-    public function __construct($notFoundController) {
+    public function __construct(ServiceContainer $container, $notFoundController) {
+        $this->container = $container;
         $this->notFoundController = $notFoundController;
     }
         
@@ -19,12 +21,23 @@ class Dispatcher {
         if (array_key_exists($method, $this->routes)) {
             foreach ($this->routes[$method] as $pattern => $callable) {
                 if (preg_match($pattern, $action, $matches)) {
-                    return $callable($matches);
+                    if (strpos($callable, '@')) {
+                        return $this->invokeFromContainer($callable, $matches);
+                    } else {
+                        return $callable($matches);
+                    }
                 }
             }
         }
         $fun = $this->notFoundController;
         return $fun();
+    }
+
+    private function invokeFromContainer(string $callable, $matches) {
+        $pair = explode('@', $callable);
+        $controller = $pair[0];
+        $method = $pair[1];
+        return $this->container->get($controller)->$method($matches);
     }
 
 }
