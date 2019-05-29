@@ -1,5 +1,7 @@
 <?php 
 
+namespace Controllers;
+
 class SingleImageEditController {
 
     function edit($params) {

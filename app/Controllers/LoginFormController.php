@@ -1,5 +1,7 @@
 <?php
 
+namespace Controllers;
+
 class LoginFormController{
 
     function show() {

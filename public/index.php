@@ -10,6 +10,5 @@ require_once "../core/config.php";
 require_once "../core/controllers.php";
 require_once "../autoload.php";
 
-
 (new \Application(new ServiceContainer(include "../services.php")))->start(realpath(__DIR__. "/../"));
 

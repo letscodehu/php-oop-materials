@@ -1,5 +1,7 @@
 <?php
 
+namespace Controllers;
+
 class SingleImageDeleteController {
     
     function delete($params) {

@@ -7,8 +7,8 @@ class Dispatcher {
     private $routes = [];
 
     public function __construct(ServiceContainer $container, $notFoundController) {
-        $this->container = $container;
         $this->notFoundController = $notFoundController;
+        $this->container = $container;
     }
         
     public function addRoute($action, $callable, $method = "GET") {

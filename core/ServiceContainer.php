@@ -15,7 +15,7 @@ class ServiceContainer {
                 $this->definitions[$service] = $factory($this);
             }
         } else {
-            die("No service definition found for '" . $service. "'");
+            die('No service definition found for '. $service);
         }
         return $this->definitions[$service];
     }

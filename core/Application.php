@@ -13,10 +13,11 @@ class Application {
         $this->container->put('basePath', $basePath);
         ob_start();
         $uri = $_SERVER["REQUEST_URI"];
-        $cleaned = explode("?", $uri)[0];
-        $controllerResult = $this->container->get("dispatcher")->dispatch($cleaned);
+        $cleaned = explode("?", $uri)[0];        
+        $controllerResult = $this->container->get('dispatcher')->dispatch($cleaned);
         $response = $this->container->get('responseFactory')->createResponse($controllerResult);
         $this->container->get('responseEmitter')->emit($response);
     }
+
 
 }

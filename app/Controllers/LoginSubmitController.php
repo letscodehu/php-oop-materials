@@ -1,5 +1,7 @@
 <?php
 
+namespace Controllers;
+
 class LoginSubmitController {
 
     public function submit() {
