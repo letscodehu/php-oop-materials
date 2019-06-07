@@ -31,8 +31,11 @@ return [
     'logoutSubmitController' => function() {
         return new Controllers\LogoutSubmitController();
     },
+    'notFoundController' => function() {
+        return new Controllers\NotFoundController();
+    },
     'dispatcher' => function(ServiceContainer $container) {
-        $dispatcher = new Dispatcher($container, 'errorController@notFound');
+        $dispatcher = new Dispatcher($container, 'notFoundController@handle');
         $dispatcher->addRoute('/', 'homeController@handle');
         $dispatcher->addRoute('/image/(?<id>[\d]+)', 'singleImageController@display');
         $dispatcher->addRoute('/image/(?<id>[\d]+)/edit', 'singleImageEditController@edit', "POST");

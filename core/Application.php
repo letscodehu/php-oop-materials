@@ -19,5 +19,4 @@ class Application {
         $this->container->get('responseEmitter')->emit($response);
     }
 
-
 }
