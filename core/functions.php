@@ -79,7 +79,6 @@ function getImageById($connection, $id) {
 }
 
 function getConnection() {
-    throw new Exception();
     global $config;
     $connection = mysqli_connect($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name']);
     if (!$connection) {
