@@ -32,8 +32,7 @@ function getTotal($connection) {
         $row = mysqli_fetch_assoc($result);
         return $row['count'];
     } else {
-        logMessage('ERROR','Query error: '. mysqli_error($connection));
-        errorPage();
+        throw new Exception('Query error: '. mysqli_error($connection));
     }
 }
 
