@@ -1,6 +1,6 @@
 <?php 
 
-$config = [
+return [
     'db_host' => 'localhost',
     'db_name' => 'training',
     'db_user' => 'training',

@@ -10,11 +10,26 @@ return [
     'responseEmitter' => function() {
         return new ResponseEmitter();
     },
-    'homeController' => function() {
-        return new Controllers\HomeController();
+    'homeController' => function(ServiceContainer $container) {
+        return new Controllers\HomeController($container->get("photoService"));
     },
-    'singleImageController' => function() {
-        return new Controllers\SingleImageController();
+    "config" => function(ServiceContainer $container) {
+        $base = $container->get("basePath");
+        return include_once $base."/config.php";
+    },
+    "connection" => function (ServiceContainer $container) {
+        $config = $container->get("config");
+        $connection = mysqli_connect($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name']);
+        if (!$connection) {
+            throw new SqlException('Connection error: '. mysqli_error($connection));
+        } 
+        return $connection;
+    },
+    "photoService" => function(ServiceContainer $container) {
+        return new Services\PhotoService($container->get("connection"));
+    },
+    'singleImageController' => function(ServiceContainer $container) {
+        return new Controllers\SingleImageController($container->get("photoService"));
     },
     'singleImageEditController' => function() {
         return new Controllers\SingleImageEditController();

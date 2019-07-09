@@ -2,11 +2,18 @@
 
 namespace Controllers;
 
+use Services\PhotoService;
+
 class SingleImageController {
-        
+    
+    private $photoService;
+
+    public function __construct(PhotoService $photoService) {
+        $this->photoService = $photoService;
+    }
+
     function display($params) {
-        $connection = getConnection();
-        $picture = getImageById($connection, $params["id"]);
+        $picture = $this->photoService->getImageById($params["id"]);
         return [
             "single",
             [

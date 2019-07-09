@@ -2,15 +2,22 @@
 
 namespace Controllers;
 
+use Services\PhotoService;
+
 class HomeController {
+
+    private $photoService;
+
+    public function __construct(PhotoService $photoService) {
+        $this->photoService = $photoService;
+    }
 
     function handle() {
         $size = $_GET["size"] ?? 15;
         $page = $_GET["page"] ?? 1;    
-        $connection = getConnection();
-        $total = getTotal($connection);
+        $total = $this->photoService->getTotal();
         $offset = ($page - 1) * $size;
-        $content = getPhotosPaginated($connection, $size, $offset);
+        $content = $this->photoService->getPhotosPaginated($size, $offset);
         $possiblePageSizes = [10, 25, 30, 40, 50];
       
         return [
