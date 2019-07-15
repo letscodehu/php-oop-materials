@@ -40,11 +40,14 @@ return [
     'loginFormController' => function() {
         return new Controllers\LoginFormController();
     },
-    'loginSubmitController' => function() {
-        return new Controllers\LoginSubmitController();
+    'loginSubmitController' => function(ServiceContainer $container) {
+        return new Controllers\LoginSubmitController($container->get("authService"));
     },
-    'logoutSubmitController' => function() {
-        return new Controllers\LogoutSubmitController();
+    'logoutSubmitController' => function(ServiceContainer $container) {
+        return new Controllers\LogoutSubmitController($container->get("authService"));
+    },
+     "authService" => function(ServiceContainer $container) {
+        return new Services\AuthService($container->get("connection"));
     },
     'notFoundController' => function() {
         return new Controllers\NotFoundController();
