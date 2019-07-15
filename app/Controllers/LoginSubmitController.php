@@ -2,24 +2,33 @@
 
 namespace Controllers;
 
+use Services\AuthService;
+
 class LoginSubmitController {
+
+    private $authService;
+
+    public function __construct(AuthService $authService) {
+        $this->authService = $authService;
+    }
 
     public function submit() {
         $password = trim($_POST["password"]);
         $email = trim($_POST["email"]);
-        $user = loginUser(getConnection(), $email, $password);
-        if ($user != null) {
-            $_SESSION["user"] = [
-                "name" => $user["name"]
-            ];
+        $success = $this->authService->loginUser($email, $password);
+        if ($success) {
             $view = "redirect:/";
         } else {
-            $_SESSION["containsError"] = 1;
+            $this->markAsLoginFailed();
             $view = "redirect:/login";
         }
         return [
             $view, []
         ];   
+    }
+
+    private function markAsLoginFailed() {
+        $_SESSION["containsError"] = 1;
     }
 
 }

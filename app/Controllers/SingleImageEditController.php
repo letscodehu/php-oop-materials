@@ -2,13 +2,20 @@
 
 namespace Controllers;
 
+use Services\PhotoService;
+
 class SingleImageEditController {
+
+    private $photoService;
+
+    public function __construct(PhotoService $photoService) {
+        $this->photoService = $photoService;
+    }
 
     function edit($params) {
         $title = $_POST["title"];
         $id = $params["id"];
-        $connection = getConnection();
-        updateImage($connection, $id, $title);
+        $this->photoService->updateImage($id, $title);
         return [
             "redirect:/image/$id",
             [

@@ -2,10 +2,18 @@
 
 namespace Controllers;
 
+use Services\AuthService;
+
 class LogoutSubmitController {
 
+    private $authService;
+
+    public function __construct(AuthService $authService) {
+        $this->authService = $authService;
+    }
+
     function submit() {
-        unset($_SESSION["user"]);
+        $this->authService->logout();
         return [
             "redirect:/", [
             ]

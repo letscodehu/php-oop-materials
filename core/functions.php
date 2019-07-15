@@ -34,23 +34,6 @@ function paginate($total, $currentPage, $size) {
     return $markup;
 }
 
-
-function loginUser($connection, $email, $password) {
-    if ($statement = mysqli_prepare($connection, 'SELECT name, password FROM photos_users WHERE email = ?')) {
-        mysqli_stmt_bind_param($statement, "s", $email);
-        mysqli_stmt_execute($statement);
-        $result = mysqli_stmt_get_result($statement);
-        $record = mysqli_fetch_assoc($result);
-        if ($record != null && password_verify($password, $record["password"])) {
-            return $record;
-        } else {
-            return null;
-        }
-    } else {
-        throw new SqlException('Query error: '. mysqli_error($connection));
-    }
-}
-
 function esc($string) {
     echo htmlspecialchars($string);
 }

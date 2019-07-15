@@ -2,11 +2,18 @@
 
 namespace Controllers;
 
+use Services\PhotoService;
+
 class SingleImageDeleteController {
     
+    private $photoService;
+
+    public function __construct(PhotoService $photoService) {
+        $this->photoService = $photoService;
+    }
+
     function delete($params) {
-        $connection = getConnection();
-        deleteImage($connection, $params["id"]);
+        $this->photoService->deleteImage($params["id"]);
         return [
             "redirect:/",
             [
