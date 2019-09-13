@@ -16,8 +16,9 @@ class Dispatcher {
         $this->routes[strtoupper($method)][$pattern] = $callable;
     }
 
-    public function dispatch($action) {
-        $method = $_SERVER["REQUEST_METHOD"]; // POST GET PATCH DELETE
+    public function dispatch(Request $request) {
+        $method = $request->getMethod();
+        $action = explode("?", $request->getUri())[0];   
         if (array_key_exists($method, $this->routes)) {
             foreach ($this->routes[$method] as $pattern => $callable) {
                 if (preg_match($pattern, $action, $matches)) {

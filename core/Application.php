@@ -13,10 +13,9 @@ class Application {
         try {
             $this->container->put('basePath', $basePath);
             ob_start();
-            $uri = $_SERVER["REQUEST_URI"];
-            $cleaned = explode("?", $uri)[0];    
-            $controllerResult = $this->container->get('dispatcher')->dispatch($cleaned);
-            $response = $this->container->get('responseFactory')->createResponse($controllerResult);
+            $response = $this->container
+                ->get("pipeline")
+                ->pipe($this->container->get("request"), new Response("", [], 200, "OK"));
             $this->container->get('responseEmitter')->emit($response);
         } catch (\Exception $e) {
             logMessage('ERROR', $e->getMessage());
