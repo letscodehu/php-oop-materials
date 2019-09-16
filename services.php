@@ -1,5 +1,7 @@
 <?php
 
+use Middleware\AuthorizationMiddleware;
+
 return [
     "responseFactory" => function(ServiceContainer $container) {
         return new ResponseFactory($container->get("viewRenderer"));
@@ -57,7 +59,9 @@ return [
     },
     'pipeline' => function(ServiceContainer $container) {
         $pipeline = new Middleware\MiddlewareStack();
+        $authMiddleware = new AuthorizationMiddleware(["/"], $container->get("authService"), "/login");
         $dispatcherMiddleware = new Middleware\DispatchingMiddleware($container->get("dispatcher"), $container->get("responseFactory"));
+        $pipeline->addMiddleware($authMiddleware);
         $pipeline->addMiddleware($dispatcherMiddleware);
         return $pipeline;
     },
