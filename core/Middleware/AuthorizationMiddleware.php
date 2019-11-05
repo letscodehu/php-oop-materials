@@ -1,11 +1,13 @@
 <?php
 
+
 namespace Middleware;
+
 
 use Services\AuthService;
 
-class AuthorizationMiddleware implements Middleware {
-
+class AuthorizationMiddleware implements Middleware
+{
     /**
      * @var string[]
      */
@@ -25,7 +27,7 @@ class AuthorizationMiddleware implements Middleware {
      * AuthorizationMiddleware constructor.
      * @param string[] $protectedUrls
      * @param AuthService $authService
-     * @param $loginUrl
+     * @param string $loginUrl
      */
     public function __construct(array $protectedUrls, AuthService $authService, $loginUrl)
     {
