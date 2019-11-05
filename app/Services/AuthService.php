@@ -2,6 +2,8 @@
 
 namespace Services;
 
+use Session;
+
 class AuthService {
 
     /**
@@ -9,11 +11,11 @@ class AuthService {
      */
     private $connection;
     /**
-     * @var \Session
+     * @var Session
      */
     private $session;
 
-    public function __construct(\mysqli $connection, \Session $session) {
+    public function __construct(\mysqli $connection, Session $session) {
         $this->connection = $connection;
         $this->session = $session;
     }

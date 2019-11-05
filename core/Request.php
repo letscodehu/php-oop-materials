@@ -8,9 +8,6 @@ class Request {
     private $params;
     private $uri;
     private $method;
-    /**
-     * @var Session
-     */
     private $session;
 
     public function __construct($uri, $method, Session $session, $body = null, $headers = [], $cookies = [], $params = []) {
@@ -47,9 +44,6 @@ class Request {
         return $this->method;
     }
 
-    /**
-     * @return Session
-     */
     public function getSession()
     {
         return $this->session;

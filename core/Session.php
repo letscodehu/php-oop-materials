@@ -3,11 +3,6 @@
 
 class Session implements Storage {
 
-    function has($key)
-    {
-        return array_key_exists($key, $_SESSION);
-    }
-
     function get($key)
     {
         return $_SESSION[$key];
@@ -28,8 +23,12 @@ class Session implements Storage {
         unset($_SESSION);
     }
 
+    function has($key)
+    {
+        return array_key_exists($key, $_SESSION);
+    }
+
     function toArray() {
         return $_SESSION;
     }
-
 }

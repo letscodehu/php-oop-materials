@@ -58,7 +58,7 @@ return [
         return new Session();
     },
     'request' => function(ServiceContainer $container) {
-        return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], $container->get("session"), file_get_contents("php://input"), getallheaders(), $_COOKIE, $_POST);
+        return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], $container->get("session"), file_get_contents('php://input'), getallheaders(), $_COOKIE, $_POST);
     },
     'pipeline' => function(ServiceContainer $container) {
         $pipeline = new Middleware\MiddlewareStack();
