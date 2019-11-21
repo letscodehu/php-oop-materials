@@ -1,5 +1,7 @@
 <?php
 
+use Session\Session;
+
 class Request {
 
     private $body;

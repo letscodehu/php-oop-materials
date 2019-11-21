@@ -2,7 +2,7 @@
 
 namespace Services;
 
-use Session;
+use Session\Session;
 
 class AuthService {
 

@@ -54,8 +54,9 @@ return [
     'notFoundController' => function() {
         return new Controllers\NotFoundController();
     },
-    'session' => function() {
-        return new Session();
+    'session' => function(ServiceContainer $container) {
+        $sessionConfig = $container->get("config")["session"];
+        return \Session\SessionFactory::build($sessionConfig["driver"], $sessionConfig["config"]);
     },
     'request' => function(ServiceContainer $container) {
         return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], $container->get("session"), file_get_contents('php://input'), getallheaders(), $_COOKIE, $_POST);
