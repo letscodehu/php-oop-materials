@@ -8,9 +8,14 @@ class AuthService {
      * @var mysqli
      */
     private $connection;
+    /**
+     * @var \Session
+     */
+    private $session;
 
-    public function __construct(\mysqli $connection) {
+    public function __construct(\mysqli $connection, \Session $session) {
         $this->connection = $connection;
+        $this->session = $session;
     }
 
     public function loginUser($email, $password) {
@@ -20,9 +25,9 @@ class AuthService {
             $result = mysqli_stmt_get_result($statement);
             $record = mysqli_fetch_assoc($result);
             if ($record != null && password_verify($password, $record["password"])) {
-                $_SESSION["user"] = [
+                $this->session->put("user", [
                     "name" => $record["name"]
-                ];
+                ]);
                 return true;
             }
             return false;
@@ -32,11 +37,11 @@ class AuthService {
     }
 
     public function check() {
-        return array_key_exists("user", $_SESSION);
+        return $this->session->has("user");
     }
 
     public function logout() {
-        unset($_SESSION["user"]);
+        $this->session->remove("user");
     }
 
 }

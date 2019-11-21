@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-1g navbar-dark bg-dark">
     <a class="navbar-brand" href="/">My Photos</a>
-    <?php if($user["loggedIn"]): ?>
+    <?php if(!empty($user)): ?>
 
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">

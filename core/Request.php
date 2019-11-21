@@ -8,14 +8,19 @@ class Request {
     private $params;
     private $uri;
     private $method;
+    /**
+     * @var Session
+     */
+    private $session;
 
-    public function __construct($uri, $method, $body = null, $headers = [], $cookies = [], $params = []) {
+    public function __construct($uri, $method, Session $session, $body = null, $headers = [], $cookies = [], $params = []) {
         $this->uri = $uri;
         $this->method = $method;
         $this->body = $body;
         $this->headers = $headers;
         $this->cookies = $cookies;
         $this->params = $params;
+        $this->session = $session;
     }
 
     public function getUri() {
@@ -40,6 +45,14 @@ class Request {
 
     public function getMethod() {
         return $this->method;
+    }
+
+    /**
+     * @return Session
+     */
+    public function getSession()
+    {
+        return $this->session;
     }
 
 }

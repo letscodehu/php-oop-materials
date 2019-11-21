@@ -49,13 +49,16 @@ return [
         return new Controllers\LogoutSubmitController($container->get("authService"));
     },
      "authService" => function(ServiceContainer $container) {
-        return new Services\AuthService($container->get("connection"));
+        return new Services\AuthService($container->get("connection"), $container->get("session"));
     },
     'notFoundController' => function() {
         return new Controllers\NotFoundController();
     },
-    'request' => function() {
-        return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], "", getallheaders(), $_COOKIE, $_POST);
+    'session' => function() {
+        return new Session();
+    },
+    'request' => function(ServiceContainer $container) {
+        return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], $container->get("session"), file_get_contents("php://input"), getallheaders(), $_COOKIE, $_POST);
     },
     'pipeline' => function(ServiceContainer $container) {
         $pipeline = new Middleware\MiddlewareStack();
