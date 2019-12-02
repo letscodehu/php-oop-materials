@@ -25,12 +25,14 @@ class FileSession implements Session {
 
     function put($key, $value)
     {
+        $this->getData();
         $this->data[$key] = $value;
         $this->persist();
     }
 
     function remove($key)
     {
+        $this->getData();
         unset($this->data[$key]);
         $this->persist();
     }
@@ -61,7 +63,7 @@ class FileSession implements Session {
 
     private function persist() {
         if (!file_put_contents($this->filename, serialize($this->data))) {
-            throw new Exception("Cant write file: ". $this->filename);
+            throw new \Exception("Cant write file: ". $this->filename);
         }
     }
 }
