@@ -3,13 +3,16 @@
 namespace Controllers;
 
 use Services\AuthService;
+use Session\Session;
 
 class LoginSubmitController {
 
     private $authService;
+    private $session;
 
-    public function __construct(AuthService $authService) {
+    public function __construct(AuthService $authService, Session $session) {
         $this->authService = $authService;
+        $this->session = $session;
     }
 
     public function submit() {
@@ -28,7 +31,7 @@ class LoginSubmitController {
     }
 
     private function markAsLoginFailed() {
-        $_SESSION["containsError"] = 1;
+        $this->session->put("containsError", 1);
     }
 
 }

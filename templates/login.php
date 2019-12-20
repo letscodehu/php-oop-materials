@@ -15,4 +15,8 @@
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
+    <div style="padding-top: 20px;text-align:center">
+        <a role="button" class="btn btn-info" href="/register">Register</a>
+        <a role="button" class="btn btn-info" href="/forgotpass">Forgot password</a>
+    </div>
 </main>

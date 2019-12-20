@@ -39,11 +39,11 @@ return [
     'singleImageDeleteController' => function() {
         return new Controllers\SingleImageDeleteController();
     },
-    'loginFormController' => function() {
-        return new Controllers\LoginFormController();
+    'loginFormController' => function(ServiceContainer $container) {
+        return new Controllers\LoginFormController($container->get("session"));
     },
     'loginSubmitController' => function(ServiceContainer $container) {
-        return new Controllers\LoginSubmitController($container->get("authService"));
+        return new Controllers\LoginSubmitController($container->get("authService"), $container->get("session"));
     },
     'logoutSubmitController' => function(ServiceContainer $container) {
         return new Controllers\LogoutSubmitController($container->get("authService"));
@@ -53,6 +53,19 @@ return [
     },
     'notFoundController' => function() {
         return new Controllers\NotFoundController();
+    },
+    'forgotPasswordSubmitController' => function(ServiceContainer $container) {
+        return new Controllers\ForgotPasswordSubmitController($container->get("session"));
+    },
+    'forgotPasswordController' => function(ServiceContainer $container) {
+        return new Controllers\ForgotPasswordController($container->get("session"));
+    },
+    "mailer" => function(ServiceContainer $container) {
+        $mailerConfig = $container->get("config")["mail"];
+        $transport = (new Swift_SmtpTransport($mailerConfig["host"], $mailerConfig["port"]))
+            ->setUsername($mailerConfig["username"])
+            ->setPassword($mailerConfig["password"]);
+        return new Swift_Mailer($transport);
     },
     'session' => function(ServiceContainer $container) {
         $sessionConfig = $container->get("config")["session"];
@@ -79,6 +92,10 @@ return [
         $dispatcher->addRoute('/login', 'loginFormController@show');
         $dispatcher->addRoute('/logout', 'logoutSubmitController@submit');
         $dispatcher->addRoute('/login', 'loginSubmitController@submit', "POST");
+
+        $dispatcher->addRoute('/forgotpass', 'forgotPasswordController@show');
+        $dispatcher->addRoute('/forgotpass', 'forgotPasswordSubmitController@submit', "POST");
+
         return $dispatcher;
     }
 ];

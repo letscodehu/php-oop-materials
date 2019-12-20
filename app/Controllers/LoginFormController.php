@@ -2,7 +2,19 @@
 
 namespace Controllers;
 
+use Session\Session;
+
 class LoginFormController{
+
+    /**
+     * @var Session
+     */
+    private $session;
+
+    public function __construct(Session $session)
+    {
+        $this->session = $session;
+    }
 
     public function show() {
         $containsError = $this->checkForError();
@@ -15,8 +27,8 @@ class LoginFormController{
     }
 
     private function checkForError() {
-        $containsError = array_key_exists("containsError", $_SESSION);
-        unset($_SESSION["containsError"]);
+        $containsError = $this->session->has("containsError");
+        $this->session->remove("containsError");
         return $containsError;
     }
 
