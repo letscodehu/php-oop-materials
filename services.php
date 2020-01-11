@@ -55,7 +55,7 @@ return [
         return new Controllers\NotFoundController();
     },
     'forgotPasswordSubmitController' => function(ServiceContainer $container) {
-        return new Controllers\ForgotPasswordSubmitController($container->get("session"));
+        return new Controllers\ForgotPasswordSubmitController($container->get("request"));
     },
     'forgotPasswordController' => function(ServiceContainer $container) {
         return new Controllers\ForgotPasswordController($container->get("session"));

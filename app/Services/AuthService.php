@@ -45,5 +45,4 @@ class AuthService {
     public function logout() {
         $this->session->remove("user");
     }
-
 }
