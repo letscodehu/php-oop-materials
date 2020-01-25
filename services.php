@@ -68,6 +68,12 @@ return [
     'forgotPasswordController' => function (ServiceContainer $container) {
         return new Controllers\ForgotPasswordController($container->get("session"));
     },
+    'passwordResetController' => function (ServiceContainer $container) {
+        return new Controllers\PasswordResetController($container->get("request"));
+    },
+    'passwordResetSubmitController' => function (ServiceContainer $container) {
+        return new Controllers\PasswordResetSubmitController($container->get("request"));
+    },
     "mailer" => function (ServiceContainer $container) {
         $mailerConfig = $container->get("config")["mail"];
         $transport = (new Swift_SmtpTransport($mailerConfig["host"], $mailerConfig["port"]))
@@ -103,6 +109,10 @@ return [
 
         $dispatcher->addRoute('/forgotpass', 'forgotPasswordController@show');
         $dispatcher->addRoute('/forgotpass', 'forgotPasswordSubmitController@submit', "POST");
+
+        $dispatcher->addRoute('/reset', 'passwordResetController@show');
+        $dispatcher->addRoute('/reset', 'passwordResetSubmitController@submit', "POST");
+
 
         return $dispatcher;
     }
