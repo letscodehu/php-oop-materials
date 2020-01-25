@@ -59,6 +59,20 @@ class ForgotPasswordService
         return false;
     }
 
+    public function checkTokenExists($token)
+    {
+        if ($statement = $this->connection->prepare("SELECT COUNT(*) as total FROM password_reset WHERE token = ? AND expiry > ?")) {
+            $now = date("Y-m-d H:i:s");
+            $statement->bind_param("ss", $token, $now);
+            $statement->execute();
+            $result = $statement->get_result();
+            $record = $result->fetch_assoc();
+            return $record["total"] > 0;
+        } else {
+            throw new SqlException($this->connection->error);
+        }
+    }
+
     private function createForgotPasswordToken($email)
     {
         $token = hash("sha256", uniqid(time(), true));
@@ -98,5 +112,26 @@ class ForgotPasswordService
         }
     }
 
+    public function updatePassword($token, $password)
+    {
+        if ($statement = $this->connection->prepare("UPDATE photos_users SET password = ? WHERE email = (SELECT email FROM password_reset WHERE token = ?)")) {
+            $hash = password_hash($password, PASSWORD_BCRYPT);
+            $statement->bind_param("ss", $hash, $token);
+            $statement->execute();
+        } else {
+            throw new SqlException($this->connection->error);
+        }
+        $this->deleteToken($token);
+    }
+
+    private function deleteToken($token)
+    {
+        if ($statement = $this->connection->prepare("DELETE FROM password_reset WHERE token = ?")) {
+            $statement->bind_param("s", $token);
+            $statement->execute();
+        } else {
+            throw new SqlException($this->connection->error);
+        }
+    }
 
 }

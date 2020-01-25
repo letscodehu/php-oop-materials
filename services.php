@@ -72,7 +72,7 @@ return [
         return new Controllers\PasswordResetController($container->get("request"));
     },
     'passwordResetSubmitController' => function (ServiceContainer $container) {
-        return new Controllers\PasswordResetSubmitController($container->get("request"));
+        return new Controllers\PasswordResetSubmitController($container->get("request"), $container->get("forgotPasswordService"));
     },
     "mailer" => function (ServiceContainer $container) {
         $mailerConfig = $container->get("config")["mail"];
@@ -86,7 +86,7 @@ return [
         return \Session\SessionFactory::build($sessionConfig["driver"], $sessionConfig["config"]);
     },
     'request' => function (ServiceContainer $container) {
-        return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], $container->get("session"), file_get_contents('php://input'), getallheaders(), $_COOKIE, $_POST);
+        return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], $container->get("session"), file_get_contents('php://input'), getallheaders(), $_COOKIE, array_merge($_GET, $_POST));
     },
     'pipeline' => function (ServiceContainer $container) {
         $pipeline = new Middleware\MiddlewareStack();
